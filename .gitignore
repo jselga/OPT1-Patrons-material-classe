@@ -1,0 +1,25 @@
+# Java / NetBeans build artifacts
+**/build/
+**/dist/
+**/out/
+**/*.class
+**/*.jar
+**/*.war
+**/*.ear
+**/hs_err_pid*
+
+# NetBeans private/project-local files
+**/nbproject/private/
+**/nbproject/private.properties
+**/nbproject/private.xml
+
+# Test and coverage outputs
+**/coverage/
+**/.coverage/
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+**/.idea/
+**/.vscode/
+**/*~
