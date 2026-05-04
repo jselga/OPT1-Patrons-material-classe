@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package _1_Exemple_Calculadora_Vista;
+package Vista;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;

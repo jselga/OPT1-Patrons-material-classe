@@ -1,6 +1,6 @@
-package _1_Exemple_Calculadora_Principal;
+package Principal;
 
-import _1_Exemple_Calculadora_Controlador.CalculadoraControlador;
+import Controlador.CalculadoraControlador;
 
 public class Principal {
 

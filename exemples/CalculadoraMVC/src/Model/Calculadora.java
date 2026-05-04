@@ -1,4 +1,4 @@
-package _1_Exemple_Calculadora_Model;
+package Model;
 
 /**
  *

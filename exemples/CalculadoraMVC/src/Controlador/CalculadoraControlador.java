@@ -1,8 +1,8 @@
-package _1_Exemple_Calculadora_Controlador;
+package Controlador;
 
-import _1_Exemple_Calculadora_Model.Calculadora;
-import _1_Exemple_Calculadora_Vista.CalculadoraVista;
-import _1_Exemple_Calculadora_Vista.CalculadoraVista;
+import Model.Calculadora;
+import Vista.CalculadoraVista;
+import Vista.CalculadoraVista;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
