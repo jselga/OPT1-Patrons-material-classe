@@ -23,7 +23,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
@@ -31,27 +31,27 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jTextField_resultat" min="-2" pref="206" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace min="60" pref="60" max="-2" attributes="0"/>
                       <Component id="jCheckBox_accepta" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel_operacio" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
                               <EmptySpace min="60" pref="60" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel_num1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel_num2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jTextField_num1" alignment="0" pref="74" max="32767" attributes="0"/>
-                                  <Component id="jTextField_num2" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jTextField_num1" pref="74" max="32767" attributes="0"/>
+                                  <Component id="jTextField_num2" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
@@ -61,7 +61,7 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="55" max="32767" attributes="0"/>
+              <EmptySpace pref="43" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -70,18 +70,18 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel_num1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jTextField_num1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel_num2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jTextField_num2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jComboBox_operacions" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel_operacio" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
               <Component id="jCheckBox_accepta" min="-2" max="-2" attributes="0"/>
@@ -90,20 +90,20 @@
                   <Component id="jTextField_resultat" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButton_calcular" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="17" max="32767" attributes="0"/>
+              <EmptySpace pref="75" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="jLabel_num1">
+    <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="N&#xfa;mero 1"/>
+        <Property name="text" type="java.lang.String" value="Num1"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel_num2">
+    <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="N&#xfa;mero 2"/>
+        <Property name="text" type="java.lang.String" value="Num2"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField_num1">
@@ -114,6 +114,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Accepto fer l&apos;operaci&#xf3;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox_acceptaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField_resultat">
     </Component>
@@ -135,7 +138,7 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel_operacio">
+    <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
         <Property name="text" type="java.lang.String" value="Operaci&#xf3;"/>
       </Properties>
