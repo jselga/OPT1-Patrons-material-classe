@@ -16,8 +16,8 @@ import java.awt.event.ActionListener;
  */
 public class AfegirControlador implements ActionListener{
     
-    private AfegirVista v_afegir;
-    private AlumnePersist m_alumne;
+    private final AfegirVista v_afegir;
+    private final AlumnePersist m_alumne;
   
     
 
@@ -39,7 +39,7 @@ public class AfegirControlador implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent ae) {
         
-        if (ae.getActionCommand().equals("Afegir")) {
+        if ("Afegir".equals(ae.getActionCommand())) {
             String idText = v_afegir.getjTextField_id().getText().trim();
             String nom = v_afegir.getjTextField_nom().getText().trim();
             String edatText = v_afegir.getjTextField_edat().getText().trim();
@@ -81,7 +81,7 @@ public class AfegirControlador implements ActionListener{
             }
             System.out.println("Validacio OK: alumne afegit correctament");
             System.out.println("Map actual: ");
-            m_alumne.mostarAlumnes();
+            m_alumne.mostraAlumnes();
             v_afegir.getjTextField_id().setText("");
             v_afegir.getjTextField_nom().setText("");
             v_afegir.getjTextField_edat().setText("");

@@ -33,32 +33,7 @@ public class AlumnePersist {
         return true;
     }
 
-    public ArrayList<Alumne> getAlumnes() {
-
-        ArrayList<Alumne> llistaAlumnes = new ArrayList<>();
-
-        for (Alumne al : alumnes.values()) {
-            llistaAlumnes.add(new Alumne(al.getId(), al.getNom(), al.getEdat()));
-        }
-
-        return llistaAlumnes;
-    }
-
-    public Alumne getAlumne(int id) {
-
-        Alumne alumne = alumnes.get(id);
-        if (alumne == null) {
-            return null;
-        }
-
-        return new Alumne(alumne.getId(), alumne.getNom(), alumne.getEdat());
-    }
-
-
-    public Map<Integer, Alumne> getAlumnesMap() {
-        return new HashMap<>(alumnes);
-    }
-    public void mostarAlumnes(){
+    public void mostraAlumnes(){
         for (Map.Entry<Integer, Alumne> entry : alumnes.entrySet()) {
             
             System.out.println(entry.getValue());
