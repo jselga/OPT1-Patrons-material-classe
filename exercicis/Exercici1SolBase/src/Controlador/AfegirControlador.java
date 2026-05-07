@@ -15,16 +15,23 @@ import java.awt.event.ActionListener;
  * @author david
  */
 public class AfegirControlador implements ActionListener{
-    
+    private static AfegirControlador instancia = null;
     private final AfegirVista v_afegir;
     private final AlumnePersist m_alumne;
   
     
 
-    public AfegirControlador() {        
+    private AfegirControlador() {
         v_afegir = new AfegirVista();
         m_alumne = AlumnePersist.getInstance();
         v_afegir.getjToggleButton_afegir().addActionListener(this);
+    }
+
+    public static AfegirControlador getInstance() {
+        if (instancia == null) {
+            instancia = new AfegirControlador();
+        }
+        return instancia;
     }
     
    
@@ -54,8 +61,8 @@ public class AfegirControlador implements ActionListener{
                     return;
                 }
             } catch (NumberFormatException ex) {
-                System.out.println("Validacio ERROR: la id ha de ser numerica");
-                v_afegir.setErrorId("ha de ser numerica");
+                System.out.println("Validacio ERROR: la id ha de ser numèrica");
+                v_afegir.setErrorId("ha de ser numèrica");
                 return;
             }
 
@@ -74,8 +81,8 @@ public class AfegirControlador implements ActionListener{
                     return;
                 }
             } catch (NumberFormatException ex) {
-                System.out.println("Validacio ERROR: l'edat ha de ser numerica");
-                v_afegir.setErrorEdat("ha de ser numerica");
+                System.out.println("Validacio ERROR: l'edat ha de ser numèrica");
+                v_afegir.setErrorEdat("ha de ser numèrica");
                 return;
             }
 
