@@ -15,11 +15,18 @@ import java.util.Map;
  */
 public class AlumnePersist {
 
-   
+    private static AlumnePersist instancia = null;
     private final Map<Integer, Alumne> alumnes;
 
-    public AlumnePersist() {
+    private AlumnePersist() {
         this.alumnes = new HashMap<>();
+    }
+
+    public static AlumnePersist getInstance() {
+        if (instancia == null) {
+            instancia = new AlumnePersist();
+        }
+        return instancia;
     }
 
 

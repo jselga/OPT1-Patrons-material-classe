@@ -23,7 +23,7 @@ public class AfegirControlador implements ActionListener{
 
     public AfegirControlador() {        
         v_afegir = new AfegirVista();
-        m_alumne = new AlumnePersist();
+        m_alumne = AlumnePersist.getInstance();
         v_afegir.getjToggleButton_afegir().addActionListener(this);
     }
     
@@ -40,6 +40,7 @@ public class AfegirControlador implements ActionListener{
     public void actionPerformed(ActionEvent ae) {
         
         if ("Afegir".equals(ae.getActionCommand())) {
+            v_afegir.netejarErrors();
             String idText = v_afegir.getjTextField_id().getText().trim();
             String nom = v_afegir.getjTextField_nom().getText().trim();
             String edatText = v_afegir.getjTextField_edat().getText().trim();
@@ -49,15 +50,18 @@ public class AfegirControlador implements ActionListener{
                 id = Integer.parseInt(idText);
                 if (id < 0) {
                     System.out.println("Validacio ERROR: la id ha de ser un nombre positiu");
+                    v_afegir.setErrorId("ha de ser positiva");
                     return;
                 }
             } catch (NumberFormatException ex) {
                 System.out.println("Validacio ERROR: la id ha de ser numerica");
+                v_afegir.setErrorId("ha de ser numerica");
                 return;
             }
 
             if (nom.isEmpty()) {
                 System.out.println("Validacio ERROR: el nom no pot estar buit");
+                v_afegir.setErrorNom("obligatori");
                 return;
             }
 
@@ -66,10 +70,12 @@ public class AfegirControlador implements ActionListener{
                 edat = Integer.parseInt(edatText);
                 if (edat < 0) {
                     System.out.println("Validacio ERROR: l'edat ha de ser un nombre positiu");
+                    v_afegir.setErrorEdat("ha de ser positiva");
                     return;
                 }
             } catch (NumberFormatException ex) {
                 System.out.println("Validacio ERROR: l'edat ha de ser numerica");
+                v_afegir.setErrorEdat("ha de ser numerica");
                 return;
             }
 
@@ -77,6 +83,7 @@ public class AfegirControlador implements ActionListener{
             boolean inserit = m_alumne.inserirAlumne(alumne);
             if (!inserit) {
                 System.out.println("Validacio ERROR: la id " + id + " ja existeix");
+                v_afegir.setErrorId("duplicada");
                 return;
             }
             System.out.println("Validacio OK: alumne afegit correctament");
