@@ -10,8 +10,7 @@ import Vista.ModificarVista;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -56,21 +55,39 @@ public class ModificarControlador implements ActionListener {
 
         if (ae.getActionCommand().equals("Modificar")) {
 
+            String nom = v_modificar.getjTextField_nom().getText();
+            int edat;
             try {
-                String nom = v_modificar.getjTextField_nom().getText();
-                int edat = Integer.parseInt(v_modificar.getjTextField_edat().getText());
-                alumne.setNom(nom);
-                alumne.setEdat(edat);
-                AlumneDAO.getInstance().updateAlumne(alumne);
+                edat = Integer.parseInt(v_modificar.getjTextField_edat().getText());
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "L'edat ha de ser numerica", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            alumne.setNom(nom);
+            alumne.setEdat(edat);
+            if (updateAlumneSegur(alumne)) {
                 v_modificar.dispose();
                 AlumnesControlador.getInstance().carregarJTable();
                 AlumnesControlador.getInstance().getV_alumnes().setVisible(true);
-            } catch (SQLException ex) {
-                Logger.getLogger(ModificarControlador.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
 
+    }
+
+    private boolean updateAlumneSegur(Alumne alumne) {
+        try {
+            AlumneDAO.getInstance().updateAlumne(alumne);
+            return true;
+        } catch (SQLException ex) {
+            mostrarErrorBD("Error modificant alumne", ex);
+            return false;
+        }
+    }
+
+    private void mostrarErrorBD(String missatge, Exception ex) {
+        System.out.println(missatge + ": " + ex.getMessage());
+        JOptionPane.showMessageDialog(null, missatge, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
 }

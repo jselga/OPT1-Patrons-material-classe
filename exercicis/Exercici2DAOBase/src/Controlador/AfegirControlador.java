@@ -10,8 +10,6 @@ import Vista.AfegirVista;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -48,29 +46,37 @@ public class AfegirControlador implements ActionListener{
     public void actionPerformed(ActionEvent ae) {
         
         if (ae.getActionCommand().equals("Afegir")) {
-            
-            AlumneDAO al = AlumneDAO.getInstance();
-            
+            String nom = v_afegir.getjTextField_nom().getText();
+            int edat;
             try {
-                String nom = v_afegir.getjTextField_nom().getText();
-                int edat = Integer.parseInt(v_afegir.getjTextField_edat().getText());
-                boolean inserit = al.inserirAlumne(new Alumne(nom, edat));
-                if (!inserit) {
-                    JOptionPane.showMessageDialog(null, "TODO: implementar INSERT a AlumneDAO.inserirAlumne()", "Exercici", JOptionPane.INFORMATION_MESSAGE);
-                    return;
-                }
-                v_afegir.dispose();
-                AlumnesControlador.getInstance().carregarJTable();
-                AlumnesControlador.getInstance().getV_alumnes().setVisible(true);
-                
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(AfegirControlador.class.getName()).log(Level.SEVERE, null, ex);
+                edat = Integer.parseInt(v_afegir.getjTextField_edat().getText());
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "L'edat ha de ser numerica", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
-            
-            
-            
+            boolean inserit = inserirAlumneSegur(new Alumne(nom, edat));
+            if (!inserit) {
+                JOptionPane.showMessageDialog(null, "TODO: implementar INSERT a AlumneDAO.inserirAlumne()", "Exercici", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            v_afegir.dispose();
+            AlumnesControlador.getInstance().carregarJTable();
+            AlumnesControlador.getInstance().getV_alumnes().setVisible(true);
         }
+    }
+
+    private boolean inserirAlumneSegur(Alumne alumne) {
+        try {
+            return AlumneDAO.getInstance().inserirAlumne(alumne);
+        } catch (SQLException ex) {
+            mostrarErrorBD("Error inserint alumne", ex);
+            return false;
+        }
+    }
+
+    private void mostrarErrorBD(String missatge, Exception ex) {
+        System.out.println(missatge + ": " + ex.getMessage());
+        JOptionPane.showMessageDialog(null, missatge, "Error", JOptionPane.ERROR_MESSAGE);
     }
     
 }

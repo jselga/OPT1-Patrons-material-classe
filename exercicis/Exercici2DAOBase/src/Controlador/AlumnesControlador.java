@@ -12,8 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -50,10 +48,15 @@ public class AlumnesControlador implements ActionListener {
         return v_alumnes;
     }
 
-    public void run() throws SQLException {
-
-        BDUtilDAO.crearTaulaAlumne();
-        carregarJTable();
+    public void run() {
+        try {
+            BDUtilDAO.crearTaulaAlumne();
+            BDUtilDAO.netejaTaules();
+             BDUtilDAO.inserirDadesProva(); // Descomenta per provar el mostrar inicial.
+            carregarJTable();
+        } catch (SQLException ex) {
+            mostrarErrorBD("Error inicialitzant la base de dades", ex);
+        }
 
         v_alumnes.setVisible(true);
         v_alumnes.setTitle("Llistat alumnes del CGFS de DAW");
@@ -61,29 +64,31 @@ public class AlumnesControlador implements ActionListener {
 
     }
 
-    public void carregarJTable() throws SQLException {
+    public void carregarJTable() {
+        try {
+            DefaultTableModel tm = new DefaultTableModel();
 
-        DefaultTableModel tm = new DefaultTableModel();
+            tm.addColumn("Id");
+            tm.addColumn("Nom");
+            tm.addColumn("Edat");
 
-        tm.addColumn("Id");
-        tm.addColumn("Nom");
-        tm.addColumn("Edat");
-        
-        v_alumnes.getjTable_llistatAlumnes().setModel(tm);
+            v_alumnes.getjTable_llistatAlumnes().setModel(tm);
 
-        ArrayList<Alumne> llistatAlumnes = AlumneDAO.getInstance().getAlumnes();
+            ArrayList<Alumne> llistatAlumnes = AlumneDAO.getInstance().getAlumnes();
 
-        Object[] alumnes = new Object[3];
+            Object[] alumnes = new Object[3];
 
-        for (Alumne al : llistatAlumnes) {
+            for (Alumne al : llistatAlumnes) {
 
-            alumnes[0] = al.getId();
-            alumnes[1] = al.getNom();
-            alumnes[2] = al.getEdat();
+                alumnes[0] = al.getId();
+                alumnes[1] = al.getNom();
+                alumnes[2] = al.getEdat();
 
-            tm.addRow(alumnes);
+                tm.addRow(alumnes);
+            }
+        } catch (SQLException ex) {
+            mostrarErrorBD("Error carregant alumnes", ex);
         }
-
     }
 
     @Override
@@ -111,19 +116,14 @@ public class AlumnesControlador implements ActionListener {
 
         if (filaSeleccionada != -1) { // Comprova que hi ha alguna fila seleccionada
             Object id = v_alumnes.getjTable_llistatAlumnes().getValueAt(filaSeleccionada, 0); // 0 és la columna que vols
-            try {
-                v_alumnes.setVisible(false);
-                Alumne alumne = AlumneDAO.getInstance().getAlumne((int) id);
-                if (alumne == null) {
-                    JOptionPane.showMessageDialog(null, "TODO: implementar getAlumne(id) a AlumneDAO", "Exercici", JOptionPane.INFORMATION_MESSAGE);
-                    return;
-                }
-                ModificarControlador.getInstance().run(alumne);
-                ModificarControlador.getInstance().carregarAlumne();
-
-            } catch (SQLException ex) {
-                Logger.getLogger(AlumnesControlador.class.getName()).log(Level.SEVERE, null, ex);
+            v_alumnes.setVisible(false);
+            Alumne alumne = getAlumneSegur((int) id);
+            if (alumne == null) {
+                JOptionPane.showMessageDialog(null, "TODO: implementar getAlumne(id) a AlumneDAO", "Exercici", JOptionPane.INFORMATION_MESSAGE);
+                return;
             }
+            ModificarControlador.getInstance().run(alumne);
+            ModificarControlador.getInstance().carregarAlumne();
 
         } else {
             JOptionPane.showMessageDialog(null, "Cap fila seleccionada", "Error", JOptionPane.ERROR_MESSAGE);
@@ -140,12 +140,7 @@ public class AlumnesControlador implements ActionListener {
 
         if (filaSeleccionada != -1) {
             Object id = v_alumnes.getjTable_llistatAlumnes().getValueAt(filaSeleccionada, 0);
-
-            try {
-                alumne = AlumneDAO.getInstance().getAlumne((int) id);
-            } catch (SQLException ex) {
-                Logger.getLogger(AlumnesControlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            alumne = getAlumneSegur((int) id);
 
             if (alumne == null) {
                 JOptionPane.showMessageDialog(null, "TODO: implementar getAlumne(id) a AlumneDAO", "Exercici", JOptionPane.INFORMATION_MESSAGE);
@@ -165,14 +160,10 @@ public class AlumnesControlador implements ActionListener {
             );
 
             if (resposta == JOptionPane.YES_OPTION) {
-                try {
-                    if (AlumneDAO.getInstance().deleteAlumne(alumne.getId())) {
-                        carregarJTable();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "TODO: implementar deleteAlumne(id) a AlumneDAO", "Exercici", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(AlumnesControlador.class.getName()).log(Level.SEVERE, null, ex);
+                if (deleteAlumneSegur(alumne.getId())) {
+                    carregarJTable();
+                } else {
+                    JOptionPane.showMessageDialog(null, "TODO: implementar deleteAlumne(id) a AlumneDAO", "Exercici", JOptionPane.INFORMATION_MESSAGE);
                 }
 
             }
@@ -182,5 +173,28 @@ public class AlumnesControlador implements ActionListener {
 
         }
 
+    }
+
+    private Alumne getAlumneSegur(int id) {
+        try {
+            return AlumneDAO.getInstance().getAlumne(id);
+        } catch (SQLException ex) {
+            mostrarErrorBD("Error obtenint alumne", ex);
+            return null;
+        }
+    }
+
+    private boolean deleteAlumneSegur(int id) {
+        try {
+            return AlumneDAO.getInstance().deleteAlumne(id);
+        } catch (SQLException ex) {
+            mostrarErrorBD("Error eliminant alumne", ex);
+            return false;
+        }
+    }
+
+    private void mostrarErrorBD(String missatge, Exception ex) {
+        System.out.println(missatge + ": " + ex.getMessage());
+        JOptionPane.showMessageDialog(null, missatge, "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
